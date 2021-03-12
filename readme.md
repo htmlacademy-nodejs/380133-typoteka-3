@@ -1,7 +1,7 @@
 # Личный проект «Типотека» [![Build status][travis-image]][travis-url]
 
 * Студент: [Sergii Yeromin](https://up.htmlacademy.ru/nodejs/3/user/380133).
-* Наставник: `Неизвестно`.
+* Наставник: [Дмитрий Мирошниченко](https://htmlacademy.ru/profile/id591417).
 
 ---
 
