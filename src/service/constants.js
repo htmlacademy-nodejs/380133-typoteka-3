@@ -7,6 +7,8 @@ const ANNOUNCE_LENGTH = 5;
 const FILE_NAME = `mocks.json`;
 const DEFAULT_COMMAND = `--help`;
 const USER_ARGV_INDEX = 2;
+const GENERATE_ERROR_MESSAGE = `Ошибка при записи файла`;
+const GENERATE_SUCCESS_MESSAGE = `Файл успешно записан`;
 
 const ExitCode = {
   SUCCESS: 0,
@@ -75,4 +77,6 @@ module.exports = {
   ExitCode,
   DEFAULT_COMMAND,
   USER_ARGV_INDEX,
+  GENERATE_ERROR_MESSAGE,
+  GENERATE_SUCCESS_MESSAGE,
 };
