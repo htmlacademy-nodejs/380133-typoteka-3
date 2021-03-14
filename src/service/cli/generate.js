@@ -66,6 +66,6 @@ const generate = (args) => {
 module.exports = {
   name: `--generate`,
   run(args) {
-    generate(args);
+    return generate(args);
   },
 };
