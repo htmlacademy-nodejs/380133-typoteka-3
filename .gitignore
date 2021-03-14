@@ -16,6 +16,3 @@ build/
 
 # Замоканные данные
 mocks.json
-
-# prettier
-.prettierrc
