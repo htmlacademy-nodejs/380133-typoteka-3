@@ -27,7 +27,7 @@ const generateFullText = () =>
 
 const generateCategory = () => {
   const randomCategoriesAmount = getRandomInt(1, CATEGORIES.length - 1);
-  return shuffle(CATEGORIES).slice(1, randomCategoriesAmount);
+  return shuffle(CATEGORIES).slice(0, randomCategoriesAmount);
 };
 
 const generateArticles = (count = DEFAULT_COUNT) =>
