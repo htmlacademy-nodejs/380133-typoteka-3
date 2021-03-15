@@ -40,8 +40,16 @@ const generateArticles = (count = DEFAULT_COUNT) =>
       createdDate: getRandomArticleDate(),
     }));
 
-const writeFile = (articles) =>
-  fs.writeFileSync(FILE_NAME, JSON.stringify(articles));
+const writeFile = (articles, cb) =>
+  fs.writeFile(FILE_NAME, JSON.stringify(articles), (err) => cb(err));
+
+const exitProgram = (err) => {
+  if (err) {
+    process.exit(ExitCode.ERROR);
+  }
+
+  process.exit(ExitCode.SUCCESS);
+};
 
 const generate = (args) => {
   const [count] = args;
@@ -53,18 +61,12 @@ const generate = (args) => {
   }
 
   const articles = generateArticles(countArticles);
-
-  try {
-    writeFile(articles);
-    return ExitCode.SUCCESS;
-  } catch (error) {
-    return ExitCode.ERROR;
-  }
+  writeFile(articles, exitProgram);
 };
 
 module.exports = {
   name: `--generate`,
   run(args) {
-    return generate(args);
+    generate(args);
   },
 };
