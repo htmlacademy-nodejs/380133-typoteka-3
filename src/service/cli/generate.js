@@ -49,6 +49,7 @@ const writeFile = async (fileName, articles) => {
     console.info(chalk.green(GENERATE_SUCCESS_MESSAGE));
   } catch (error) {
     console.info(chalk.red(GENERATE_ERROR_MESSAGE, error));
+    throw error;
   }
 };
 
