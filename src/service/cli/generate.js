@@ -1,4 +1,5 @@
-const fs = require(`fs`);
+const fs = require(`fs`).promises;
+const chalk = require(`chalk`);
 const {getRandomInt, shuffle, getRandomArticleDate, getRandomElement} = require(`../../utils`);
 const {
   DEFAULT_COUNT,
@@ -10,8 +11,9 @@ const {
   SENTENCES,
   CATEGORIES,
   ExitCode,
+  GENERATE_ERROR_MESSAGE,
+  GENERATE_SUCCESS_MESSAGE,
 } = require(`../constants`);
-
 
 const generateTitle = () => getRandomElement(TITLES);
 
@@ -40,33 +42,38 @@ const generateArticles = (count = DEFAULT_COUNT) =>
       createdDate: getRandomArticleDate(),
     }));
 
-const writeFile = (articles, cb) =>
-  fs.writeFile(FILE_NAME, JSON.stringify(articles), cb);
+const writeFile = async (fileName, articles) => {
+  try {
+    await fs.writeFile(fileName, JSON.stringify(articles));
 
-const exitProgram = (err) => {
-  if (err) {
-    process.exit(ExitCode.ERROR);
+    console.info(chalk.green(GENERATE_SUCCESS_MESSAGE));
+  } catch (error) {
+    console.info(chalk.red(GENERATE_ERROR_MESSAGE, error));
+    throw error;
   }
-
-  process.exit(ExitCode.SUCCESS);
 };
 
-const generate = (args) => {
+async function generate(args) {
   const [count] = args;
   const countArticles = Number.parseInt(count, 10) || DEFAULT_COUNT;
 
   if (count > MAX_COUNT) {
-    console.info(MAX_COUNT_MESSAGE);
-    return ExitCode.ERROR;
+    console.info(chalk.red(MAX_COUNT_MESSAGE));
+    process.exit(ExitCode.ERROR);
   }
 
   const articles = generateArticles(countArticles);
-  writeFile(articles, exitProgram);
-};
+  try {
+    await writeFile(FILE_NAME, articles);
+    process.exit(ExitCode.SUCCESS);
+  } catch (error) {
+    process.exit(ExitCode.ERROR);
+  }
+}
 
 module.exports = {
   name: `--generate`,
-  run(args) {
-    generate(args);
+  async run(args) {
+    await generate(args);
   },
 };
