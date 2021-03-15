@@ -1,5 +1,3 @@
-"use strict";
-
 const getRandomInt = (minArg, maxArg) => {
   const min = Math.ceil(minArg);
   const max = Math.floor(maxArg);
