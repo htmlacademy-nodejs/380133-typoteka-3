@@ -52,13 +52,13 @@ const writeFile = async (fileName, articles) => {
   }
 };
 
-const generate = async (args) => {
+async function generate(args) {
   const [count] = args;
   const countArticles = Number.parseInt(count, 10) || DEFAULT_COUNT;
 
   if (count > MAX_COUNT) {
     console.info(chalk.red(MAX_COUNT_MESSAGE));
-    return ExitCode.ERROR;
+    process.exit(ExitCode.ERROR);
   }
 
   const articles = generateArticles(countArticles);
@@ -68,7 +68,7 @@ const generate = async (args) => {
   } catch (error) {
     process.exit(ExitCode.ERROR);
   }
-};
+}
 
 module.exports = {
   name: `--generate`,
