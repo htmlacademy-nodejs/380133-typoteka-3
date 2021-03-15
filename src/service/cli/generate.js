@@ -48,13 +48,15 @@ const writeFile = (articles, cb) =>
 
 const exitProgram = (err) => {
   if (err) {
+    console.info(chalk.red(GENERATE_ERROR_MESSAGE));
     process.exit(ExitCode.ERROR);
   }
 
+  console.info(chalk.green(GENERATE_SUCCESS_MESSAGE));
   process.exit(ExitCode.SUCCESS);
 };
 
-const generate = async (args) => {
+const generate = (args) => {
   const [count] = args;
   const countArticles = Number.parseInt(count, 10) || DEFAULT_COUNT;
 
