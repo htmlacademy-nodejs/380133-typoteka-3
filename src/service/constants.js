@@ -1,5 +1,3 @@
-"use strict";
-
 const DEFAULT_COUNT = 1;
 const MAX_COUNT = 1000;
 const MAX_COUNT_MESSAGE = `Не больше 1000 публикаций`;

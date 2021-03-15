@@ -1,5 +1,3 @@
-"use strict";
-
 const {MONTH_DIFF_PERIOD} = require(`./constants`);
 
 const getStartAndEndDates = () => {

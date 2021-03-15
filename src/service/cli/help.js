@@ -1,5 +1,3 @@
-"use strict";
-
 const helpText = `Гайд:
 service.js <command>
 Команды:
