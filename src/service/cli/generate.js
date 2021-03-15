@@ -41,7 +41,7 @@ const generateArticles = (count = DEFAULT_COUNT) =>
     }));
 
 const writeFile = (articles, cb) =>
-  fs.writeFile(FILE_NAME, JSON.stringify(articles), (err) => cb(err));
+  fs.writeFile(FILE_NAME, JSON.stringify(articles), cb);
 
 const exitProgram = (err) => {
   if (err) {
