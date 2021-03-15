@@ -1,5 +1,5 @@
 const fs = require(`fs`);
-const {getRandomInt, shuffle, getRandomArticleDate} = require(`../../utils`);
+const {getRandomInt, shuffle, getRandomArticleDate, getRandomElement} = require(`../../utils`);
 const {
   DEFAULT_COUNT,
   MAX_COUNT,
@@ -12,15 +12,16 @@ const {
   ExitCode,
 } = require(`../constants`);
 
-const generateTitle = () => TITLES[getRandomInt(0, TITLES.length - 1)];
+
+const generateTitle = () => getRandomElement(TITLES);
 
 const generateAnnounce = () =>
-  shuffle(SENTENCES).slice(1, ANNOUNCE_LENGTH).join(` `);
+  shuffle(SENTENCES).slice(0, ANNOUNCE_LENGTH).join(` `);
 
 const generateFullText = () =>
-  Array(getRandomInt(1, SENTENCES.length - 1))
+  Array(getRandomInt(0, SENTENCES.length - 1))
     .fill(``)
-    .map(() => SENTENCES[getRandomInt(1, SENTENCES.length - 1)])
+    .map(() => getRandomElement(SENTENCES))
     .join(` `);
 
 const generateCategory = () => {
