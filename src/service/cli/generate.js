@@ -1,57 +1,60 @@
-const fs = require(`fs`).promises;
 const chalk = require(`chalk`);
-const {getRandomInt, shuffle, getRandomArticleDate, getRandomElement} = require(`../../utils`);
+const {
+  getRandomInt,
+  shuffle,
+  getRandomArticleDate,
+  getRandomElement,
+  getContent,
+  writeContent
+} = require(`../../utils`);
 const {
   DEFAULT_COUNT,
   MAX_COUNT,
   MAX_COUNT_MESSAGE,
   ANNOUNCE_LENGTH,
   FILE_NAME,
-  TITLES,
-  SENTENCES,
-  CATEGORIES,
   ExitCode,
-  GENERATE_ERROR_MESSAGE,
-  GENERATE_SUCCESS_MESSAGE,
+  FILE_SENTENCES_PATH,
+  FILE_TITLES_PATH,
+  FILE_CATEGORIES_PATH,
 } = require(`../constants`);
 
-const generateTitle = () => getRandomElement(TITLES);
+const parseContent = (content) => content.split(`\n`);
 
-const generateAnnounce = () =>
-  shuffle(SENTENCES).slice(0, ANNOUNCE_LENGTH).join(` `);
+const generateTitle = (titles) => getRandomElement(titles);
 
-const generateFullText = () =>
-  Array(getRandomInt(0, SENTENCES.length - 1))
+const generateAnnounce = (sentences) =>
+  shuffle(sentences).slice(0, ANNOUNCE_LENGTH).join(` `);
+
+const generateFullText = (sentences) =>
+  Array(getRandomInt(0, sentences.length - 1))
     .fill(``)
-    .map(() => getRandomElement(SENTENCES))
+    .map(() => getRandomElement(sentences))
     .join(` `);
 
-const generateCategory = () => {
-  const randomCategoriesAmount = getRandomInt(1, CATEGORIES.length - 1);
-  return shuffle(CATEGORIES).slice(0, randomCategoriesAmount);
+const generateCategory = (categories) => {
+  const randomCategoriesAmount = getRandomInt(1, categories.length - 1);
+  return shuffle(categories).slice(0, randomCategoriesAmount);
 };
 
-const generateArticles = (count = DEFAULT_COUNT) =>
-  Array(count)
+const generateArticles = async (count = DEFAULT_COUNT) => {
+  const [sentences, categories, titles] = await Promise.all([
+    getContent(FILE_SENTENCES_PATH, parseContent),
+    getContent(FILE_CATEGORIES_PATH, parseContent),
+    getContent(FILE_TITLES_PATH, parseContent)
+  ]);
+
+  return Array(count)
     .fill({})
     .map(() => ({
-      title: generateTitle(),
-      announce: generateAnnounce(),
-      fullText: generateFullText(),
-      сategory: generateCategory(),
+      title: generateTitle(titles),
+      announce: generateAnnounce(sentences),
+      fullText: generateFullText(sentences),
+      сategory: generateCategory(categories),
       createdDate: getRandomArticleDate(),
     }));
-
-const writeFile = async (fileName, articles) => {
-  try {
-    await fs.writeFile(fileName, JSON.stringify(articles));
-
-    console.info(chalk.green(GENERATE_SUCCESS_MESSAGE));
-  } catch (error) {
-    console.info(chalk.red(GENERATE_ERROR_MESSAGE, error));
-    throw error;
-  }
 };
+
 
 async function generate(args) {
   const [count] = args;
@@ -62,9 +65,9 @@ async function generate(args) {
     process.exit(ExitCode.ERROR);
   }
 
-  const articles = generateArticles(countArticles);
+  const articles = await generateArticles(countArticles);
   try {
-    await writeFile(FILE_NAME, articles);
+    await writeContent(FILE_NAME, articles);
     process.exit(ExitCode.SUCCESS);
   } catch (error) {
     process.exit(ExitCode.ERROR);
