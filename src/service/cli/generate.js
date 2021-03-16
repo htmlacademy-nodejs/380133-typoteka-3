@@ -38,9 +38,11 @@ const generateCategory = (categories) => {
 };
 
 const generateArticles = async (count = DEFAULT_COUNT) => {
-  const sentences = await getContent(FILE_SENTENCES_PATH, parseContent);
-  const categories = await getContent(FILE_CATEGORIES_PATH, parseContent);
-  const titles = await getContent(FILE_TITLES_PATH, parseContent);
+  const [sentences, categories, titles] = await Promise.all([
+    getContent(FILE_SENTENCES_PATH, parseContent),
+    getContent(FILE_CATEGORIES_PATH, parseContent),
+    getContent(FILE_TITLES_PATH, parseContent)
+  ]);
 
   return Array(count)
     .fill({})
