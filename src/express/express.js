@@ -3,8 +3,7 @@ const express = require(`express`);
 const chalk = require(`chalk`);
 const {
   DEFAULT_PORT,
-  SERVER_ERROR_MESSAGE,
-  SERVER_SUCCESS_MESSAGE,
+  ServerMessage,
   PUBLIC_DIR,
 } = require(`./constants`);
 const routes = require(`./routes`);
@@ -23,8 +22,8 @@ app.set(`view engine`, `pug`);
 
 app.listen(DEFAULT_PORT, (error) => {
   if (error) {
-    console.info(chalk.red(SERVER_ERROR_MESSAGE, error));
+    console.info(chalk.red(ServerMessage.ERROR, error));
   }
 
-  console.info(chalk.green(SERVER_SUCCESS_MESSAGE, DEFAULT_PORT));
+  console.info(chalk.green(ServerMessage.SUCCESS, DEFAULT_PORT));
 });

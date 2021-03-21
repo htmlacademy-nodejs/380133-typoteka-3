@@ -8,15 +8,11 @@ const {
   writeContent
 } = require(`../../utils`);
 const {
-  DEFAULT_COUNT,
-  MAX_COUNT,
-  MAX_COUNT_MESSAGE,
+  ArticlesCount,
   ANNOUNCE_LENGTH,
   FILE_NAME,
   ExitCode,
-  FILE_SENTENCES_PATH,
-  FILE_TITLES_PATH,
-  FILE_CATEGORIES_PATH,
+  FilePath,
 } = require(`../constants`);
 
 const parseContent = (content) => content.split(`\n`);
@@ -37,11 +33,11 @@ const generateCategory = (categories) => {
   return shuffle(categories).slice(0, randomCategoriesAmount);
 };
 
-const generateArticles = async (count = DEFAULT_COUNT) => {
+const generateArticles = async (count = ArticlesCount.DEFAULT_VALUE) => {
   const [sentences, categories, titles] = await Promise.all([
-    getContent(FILE_SENTENCES_PATH, parseContent),
-    getContent(FILE_CATEGORIES_PATH, parseContent),
-    getContent(FILE_TITLES_PATH, parseContent)
+    getContent(FilePath.SENTENCES, parseContent),
+    getContent(FilePath.CATEGORIES, parseContent),
+    getContent(FilePath.TITLES, parseContent)
   ]);
 
   return Array(count)
@@ -58,10 +54,10 @@ const generateArticles = async (count = DEFAULT_COUNT) => {
 
 async function generate(args) {
   const [count] = args;
-  const countArticles = Number.parseInt(count, 10) || DEFAULT_COUNT;
+  const countArticles = Number.parseInt(count, 10) || ArticlesCount.DEFAULT_VALUE;
 
-  if (count > MAX_COUNT) {
-    console.info(chalk.red(MAX_COUNT_MESSAGE));
+  if (count > ArticlesCount.MAX_VALUE) {
+    console.info(chalk.red(ArticlesCount.MAX_ERROR_MESSAGE));
     process.exit(ExitCode.ERROR);
   }
 
