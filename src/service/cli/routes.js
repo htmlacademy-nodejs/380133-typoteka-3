@@ -3,7 +3,7 @@ const chalk = require(`chalk`);
 const fs = require(`fs`).promises;
 const {
   FILE_NAME,
-  NOT_FOUND_MESSAGE,
+  ServerMessage,
 } = require(`../constants`);
 
 const router = new Router();
@@ -15,7 +15,7 @@ router.get(`/posts`, async (req, res) => {
 
     return res.send(mocks);
   } catch (error) {
-    console.info(chalk.red(NOT_FOUND_MESSAGE, error));
+    console.info(chalk.red(ServerMessage.NOT_FOUND_MESSAGE, error));
     return res.send([]);
   }
 });
