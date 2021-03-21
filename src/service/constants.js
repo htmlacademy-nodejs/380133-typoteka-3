@@ -1,12 +1,14 @@
+const ANNOUNCE_LENGTH = 5;
+const FILE_NAME = `mocks.json`;
+const DEFAULT_COMMAND = `--help`;
+const USER_ARGV_INDEX = 2;
+const DEFAULT_PORT = 3000;
+
 const ArticlesCount = {
   DEFAULT_VALUE: 1,
   MAX_VALUE: 1000,
   MAX_ERROR_MESSAGE: `Не больше 1000 публикаций`,
 };
-const ANNOUNCE_LENGTH = 5;
-const FILE_NAME = `mocks.json`;
-const DEFAULT_COMMAND = `--help`;
-const USER_ARGV_INDEX = 2;
 
 const ExitCode = {
   SUCCESS: 0,
@@ -20,7 +22,6 @@ const FilePath = {
 };
 
 // server
-const DEFAULT_PORT = 3000;
 const ServerMessage = {
   ERROR: `Ошибка при создании сервера`,
   SUCCESS: `Ожидаю соединений на `,
