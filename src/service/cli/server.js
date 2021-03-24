@@ -14,7 +14,7 @@ const server = () => {
   app.use(express.json());
 
   // routes
-  app.use(`/`, router);
+  app.use(`/api`, router);
 
   app.listen(DEFAULT_PORT, (error) => {
     if (error) {
