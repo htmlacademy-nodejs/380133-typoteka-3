@@ -1,4 +1,9 @@
-const {ArticleService} = require(`./articles`);
-const {CategoriesService} = require(`./categories`);
+const {ArticleService} = require(`./article`);
+const {CategoryService} = require(`./category`);
+const {CommentService} = require(`./comment`);
 
-module.exports = {ArticleService, CategoriesService};
+module.exports = {
+  ArticleService,
+  CategoryService,
+  CommentService,
+};

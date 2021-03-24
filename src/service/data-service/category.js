@@ -1,4 +1,4 @@
-class CategoriesService {
+class CategoryService {
   constructor(articles) {
     this._articles = articles;
   }
@@ -16,4 +16,4 @@ class CategoriesService {
   }
 }
 
-module.exports = {CategoriesService};
+module.exports = {CategoryService};
