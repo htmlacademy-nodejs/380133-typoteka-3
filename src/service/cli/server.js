@@ -1,7 +1,7 @@
 
 const express = require(`express`);
 const chalk = require(`chalk`);
-const routes = require(`./routes`);
+const {router} = require(`../api`);
 const {
   DEFAULT_PORT,
   ServerMessage,
@@ -14,7 +14,7 @@ const server = () => {
   app.use(express.json());
 
   // routes
-  routes(app);
+  app.use(`/`, router);
 
   app.listen(DEFAULT_PORT, (error) => {
     if (error) {
