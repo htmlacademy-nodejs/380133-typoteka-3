@@ -2,6 +2,10 @@ const {nanoid} = require(`nanoid`);
 const {MAX_ID_LENGTH} = require(`../constants`);
 
 class CommentService {
+  constructor(articleService) {
+    this._articleService = articleService;
+  }
+
   findAll(article) {
     return article.comments;
   }
@@ -24,7 +28,10 @@ class CommentService {
     }
 
     article.comments = article.comments.filter((it) => it.id !== id);
-    return article;
+
+    this._articleService.update(article.id, {comments: article.comments});
+
+    return deletedComment;
   }
 
   findOne(id, article) {

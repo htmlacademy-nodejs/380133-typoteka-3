@@ -33,17 +33,15 @@ module.exports = (app, articleService, commentService) => {
   });
 
   router.delete(`/:articleId/comments/:commentId`, checkIsArticleExists(articleService), (req, res) => {
-    const {articleId, commentId} = req.params;
+    const {commentId} = req.params;
 
-    const article = commentService.drop(commentId, res.locals.article);
+    const deletedComment = commentService.drop(commentId, res.locals.article);
 
-    if (!article) {
+    if (!deletedComment) {
       return res.status(HttpCode.NOT_FOUND).send(ServerMessage.NOT_FOUND_MESSAGE);
     }
 
-    const updatedArticle = articleService.update(articleId, {comments: article.comments});
-
-    return res.status(HttpCode.OK).send(updatedArticle);
+    return res.status(HttpCode.OK).send(deletedComment);
   });
 
   router.get(`/`, (req, res) => {
