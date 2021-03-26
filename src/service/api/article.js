@@ -1,5 +1,6 @@
 const {Router} = require(`express`);
 const {validateArticle} = require(`../middlewares/validateArticle`);
+const {validateComment} = require(`../middlewares/validateComment`);
 const {HttpCode, ServerMessage} = require(`../constants`);
 
 const router = new Router();
@@ -37,7 +38,7 @@ module.exports = (app, articleService, commentService) => {
     return res.status(HttpCode.OK).send(comments);
   });
 
-  router.post(`/:articleId/comments`, (req, res) => {
+  router.post(`/:articleId/comments`, validateComment, (req, res) => {
     const {text} = req.body;
 
     const article = getArticle(articleService, req, res);
@@ -47,7 +48,7 @@ module.exports = (app, articleService, commentService) => {
       return res.status(HttpCode.NOT_FOUND).send(ServerMessage.NOT_FOUND_MESSAGE);
     }
 
-    return res.status(HttpCode.OK).send(createdComment);
+    return res.status(HttpCode.CREATED).send(createdComment);
   });
 
   router.get(`/:articleId/comments/:commentId`, (req, res) => {
@@ -81,7 +82,7 @@ module.exports = (app, articleService, commentService) => {
     return res.status(HttpCode.OK).send(articles);
   });
 
-  router.put(`/:articleId`, (req, res) => {
+  router.put(`/:articleId`, validateArticle, (req, res) => {
     const {articleId} = req.params;
 
     const updatedArticle = articleService.update(articleId, req.body);
@@ -106,6 +107,6 @@ module.exports = (app, articleService, commentService) => {
   router.post(`/`, validateArticle, (req, res) => {
     const article = articleService.create(req.body);
 
-    return res.status(HttpCode.OK).send(article);
+    return res.status(HttpCode.CREATED).send(article);
   });
 };

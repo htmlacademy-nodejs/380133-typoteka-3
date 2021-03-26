@@ -15,10 +15,6 @@ module.exports = (app, service) => {
 
     const result = service.find(query);
 
-    if (!result) {
-      return res.status(HttpCode.NOT_FOUND).send(ServerMessage.NOT_FOUND_MESSAGE);
-    }
-
     return res.status(HttpCode.OK).send(result);
   });
 };
