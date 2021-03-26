@@ -11,7 +11,13 @@ class ArticleService {
   }
 
   findOne(id) {
-    return this._articles.find((article) => article.id === id);
+    const article = this._articles.find((it) => it.id === id);
+
+    if (!article) {
+      return null;
+    }
+
+    return article;
   }
 
   create(article) {
@@ -27,13 +33,16 @@ class ArticleService {
   }
 
   update(id, article) {
-    const oldArticle = this._articles
-    .find((item) => item.id === id);
+    const oldArticle = this.findOne(id);
+
+    if (!oldArticle) {
+      return null;
+    }
 
     return Object.assign(oldArticle, article);
   }
 
-  drop(id) {
+  delete(id) {
     const deletedArticle = this.findOne(id);
 
     if (!deletedArticle) {

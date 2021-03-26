@@ -8,7 +8,7 @@ class SearchService {
 
     const result = this._articles.filter((article) => article.title.toLowerCase().includes(query));
 
-    return result.length ? result : null;
+    return result.length ? result : [];
   }
 }
 

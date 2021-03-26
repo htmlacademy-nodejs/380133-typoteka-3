@@ -10,9 +10,14 @@ const router = new Router();
 (async () => {
   const mockData = await getMockData();
 
-  categoryRoutes(router, new CategoryService(mockData));
-  articleRoutes(router, new ArticleService(mockData), new CommentService());
-  searchRoutes(router, new SearchService(mockData));
+  const categoryService = new CategoryService(mockData);
+  const articleService = new ArticleService(mockData);
+  const commentService = new CommentService(articleService);
+  const searchService = new SearchService(mockData);
+
+  categoryRoutes(router, categoryService);
+  articleRoutes(router, articleService, commentService);
+  searchRoutes(router, searchService);
 })();
 
 module.exports = {router};

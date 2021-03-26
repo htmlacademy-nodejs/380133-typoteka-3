@@ -1,18 +1,35 @@
 const {Router} = require(`express`);
-const {checkIsArticleExists} = require(`../middlewares/checkIsArticleExists`);
 const {validateArticle} = require(`../middlewares/validateArticle`);
+const {validateComment} = require(`../middlewares/validateComment`);
 const {HttpCode, ServerMessage} = require(`../constants`);
 
 const router = new Router();
 
+// @todo Move to controllers
+const getArticle = (service, req, res) => {
+  const article = service.findOne(req.params.articleId);
+
+  if (!article) {
+    return res.status(HttpCode.NOT_FOUND).send(ServerMessage.NOT_FOUND_MESSAGE);
+  }
+
+  return article;
+};
+
 module.exports = (app, articleService, commentService) => {
   app.use(`/articles`, router);
 
-  router.get(`/:articleId`, checkIsArticleExists(articleService), (req, res) =>
-    res.status(HttpCode.OK).send(res.locals.article));
 
-  router.get(`/:articleId/comments`, checkIsArticleExists(articleService), (req, res) => {
-    const comments = commentService.findAll(res.locals.article);
+  router.get(`/:articleId`, (req, res) => {
+    const article = getArticle(articleService, req, res);
+
+    return res.status(HttpCode.OK).send(article);
+  });
+
+  router.get(`/:articleId/comments`, (req, res) => {
+    const article = getArticle(articleService, req, res);
+
+    const comments = commentService.findAll(article);
 
     if (!comments) {
       return res.status(HttpCode.NOT_FOUND).send(ServerMessage.NOT_FOUND_MESSAGE);
@@ -21,29 +38,43 @@ module.exports = (app, articleService, commentService) => {
     return res.status(HttpCode.OK).send(comments);
   });
 
-  router.post(`/:articleId/comments`, checkIsArticleExists(articleService), (req, res) => {
+  router.post(`/:articleId/comments`, validateComment, (req, res) => {
     const {text} = req.body;
-    const createdComment = commentService.create(text, res.locals.article);
+
+    const article = getArticle(articleService, req, res);
+    const createdComment = commentService.create(text, article);
 
     if (!createdComment) {
       return res.status(HttpCode.NOT_FOUND).send(ServerMessage.NOT_FOUND_MESSAGE);
     }
 
-    return res.status(HttpCode.OK).send(createdComment);
+    return res.status(HttpCode.CREATED).send(createdComment);
   });
 
-  router.delete(`/:articleId/comments/:commentId`, checkIsArticleExists(articleService), (req, res) => {
-    const {articleId, commentId} = req.params;
+  router.get(`/:articleId/comments/:commentId`, (req, res) => {
+    const {commentId} = req.params;
 
-    const article = commentService.drop(commentId, res.locals.article);
+    const article = getArticle(articleService, req, res);
+    const comment = commentService.findOne(commentId, article);
 
-    if (!article) {
+    if (!comment) {
       return res.status(HttpCode.NOT_FOUND).send(ServerMessage.NOT_FOUND_MESSAGE);
     }
 
-    const updatedArticle = articleService.update(articleId, {comments: article.comments});
+    return res.status(HttpCode.OK).send(comment);
+  });
 
-    return res.status(HttpCode.OK).send(updatedArticle);
+  router.delete(`/:articleId/comments/:commentId`, (req, res) => {
+    const {commentId} = req.params;
+
+    const article = getArticle(articleService, req, res);
+    const deletedComment = commentService.delete(commentId, article);
+
+    if (!deletedComment) {
+      return res.status(HttpCode.NOT_FOUND).send(ServerMessage.NOT_FOUND_MESSAGE);
+    }
+
+    return res.status(HttpCode.OK).send(deletedComment);
   });
 
   router.get(`/`, (req, res) => {
@@ -51,15 +82,24 @@ module.exports = (app, articleService, commentService) => {
     return res.status(HttpCode.OK).send(articles);
   });
 
-  router.put(`/:articleId`, checkIsArticleExists(articleService), (req, res) => {
+  router.put(`/:articleId`, validateArticle, (req, res) => {
     const {articleId} = req.params;
+
     const updatedArticle = articleService.update(articleId, req.body);
+
+    if (!updatedArticle) {
+      return res.status(HttpCode.NOT_FOUND).send(ServerMessage.NOT_FOUND_MESSAGE);
+    }
 
     return res.status(HttpCode.OK).send(updatedArticle);
   });
 
-  router.delete(`/:articleId`, checkIsArticleExists(articleService), (req, res) => {
-    const deletedArticle = articleService.drop(req.params.articleId);
+  router.delete(`/:articleId`, (req, res) => {
+    const deletedArticle = articleService.delete(req.params.articleId);
+
+    if (!deletedArticle) {
+      return res.status(HttpCode.NOT_FOUND).send(ServerMessage.NOT_FOUND_MESSAGE);
+    }
 
     return res.status(HttpCode.OK).send(deletedArticle);
   });
@@ -67,6 +107,6 @@ module.exports = (app, articleService, commentService) => {
   router.post(`/`, validateArticle, (req, res) => {
     const article = articleService.create(req.body);
 
-    return res.status(HttpCode.OK).send(article);
+    return res.status(HttpCode.CREATED).send(article);
   });
 };
