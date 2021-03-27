@@ -5,7 +5,9 @@
   "main": "./src/service/service.js",
   "scripts": {
     "start": "node ./src/service/service.js",
-    "test": "npm run eslint",
+    "test": "npm run eslint && jest --watch",
+    "test:coverage": "npm run eslint && jest --coverage",
+    "test::rest": "npm run test",
     "eslint": "eslint --ext .js src/",
     "server": "nodemon ./src/service/service.js --server",
     "start-front-server": "node ./src/express/express.js",

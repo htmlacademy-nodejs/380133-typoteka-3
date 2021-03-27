@@ -11,6 +11,9 @@ Thumbs.db
 *.log*
 node_modules/
 
+# coverage
+/coverage
+
 # Папка с собранными файлами проекта
 build/
 
