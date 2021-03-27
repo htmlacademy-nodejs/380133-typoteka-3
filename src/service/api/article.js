@@ -5,29 +5,26 @@ const {HttpCode, ServerMessage} = require(`../constants`);
 
 const router = new Router();
 
-// @todo Move to controllers
-const getArticle = (service, req, res) => {
-  const article = service.findOne(req.params.articleId);
-
-  if (!article) {
-    return res.status(HttpCode.NOT_FOUND).send(ServerMessage.NOT_FOUND_MESSAGE);
-  }
-
-  return article;
-};
-
 module.exports = (app, articleService, commentService) => {
   app.use(`/articles`, router);
 
 
   router.get(`/:articleId`, (req, res) => {
-    const article = getArticle(articleService, req, res);
+    const article = articleService.findOne(req.params.articleId);
+
+    if (!article) {
+      return res.status(HttpCode.NOT_FOUND).send(ServerMessage.NOT_FOUND_MESSAGE);
+    }
 
     return res.status(HttpCode.OK).send(article);
   });
 
   router.get(`/:articleId/comments`, (req, res) => {
-    const article = getArticle(articleService, req, res);
+    const article = articleService.findOne(req.params.articleId);
+
+    if (!article) {
+      return res.status(HttpCode.NOT_FOUND).send(ServerMessage.NOT_FOUND_MESSAGE);
+    }
 
     const comments = commentService.findAll(article);
 
@@ -39,10 +36,13 @@ module.exports = (app, articleService, commentService) => {
   });
 
   router.post(`/:articleId/comments`, validateComment, (req, res) => {
-    const {text} = req.body;
+    const article = articleService.findOne(req.params.articleId);
 
-    const article = getArticle(articleService, req, res);
-    const createdComment = commentService.create(text, article);
+    if (!article) {
+      return res.status(HttpCode.NOT_FOUND).send(ServerMessage.NOT_FOUND_MESSAGE);
+    }
+
+    const createdComment = commentService.create(req.body.text, article);
 
     if (!createdComment) {
       return res.status(HttpCode.NOT_FOUND).send(ServerMessage.NOT_FOUND_MESSAGE);
@@ -52,9 +52,14 @@ module.exports = (app, articleService, commentService) => {
   });
 
   router.get(`/:articleId/comments/:commentId`, (req, res) => {
-    const {commentId} = req.params;
+    const {commentId, articleId} = req.params;
 
-    const article = getArticle(articleService, req, res);
+    const article = articleService.findOne(articleId);
+
+    if (!article) {
+      return res.status(HttpCode.NOT_FOUND).send(ServerMessage.NOT_FOUND_MESSAGE);
+    }
+
     const comment = commentService.findOne(commentId, article);
 
     if (!comment) {
@@ -65,9 +70,14 @@ module.exports = (app, articleService, commentService) => {
   });
 
   router.delete(`/:articleId/comments/:commentId`, (req, res) => {
-    const {commentId} = req.params;
+    const {commentId, articleId} = req.params;
 
-    const article = getArticle(articleService, req, res);
+    const article = articleService.findOne(articleId);
+
+    if (!article) {
+      return res.status(HttpCode.NOT_FOUND).send(ServerMessage.NOT_FOUND_MESSAGE);
+    }
+
     const deletedComment = commentService.delete(commentId, article);
 
     if (!deletedComment) {
