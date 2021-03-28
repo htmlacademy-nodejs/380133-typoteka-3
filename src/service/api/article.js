@@ -7,8 +7,7 @@ const router = new Router();
 
 module.exports = (app, articleService, commentService) => {
   app.use(`/articles`, router);
-
-
+  // DONE
   router.get(`/:articleId`, (req, res) => {
     const article = articleService.findOne(req.params.articleId);
 
@@ -18,9 +17,12 @@ module.exports = (app, articleService, commentService) => {
 
     return res.status(HttpCode.OK).send(article);
   });
-
+  // PROCESS
   router.get(`/:articleId/comments`, (req, res) => {
+    console.log(`router.get(/:articleId/comments`);
     const article = articleService.findOne(req.params.articleId);
+
+    console.log(`*** router.get article:`, article);
 
     if (!article) {
       return res.status(HttpCode.NOT_FOUND).send(ServerMessage.NOT_FOUND_MESSAGE);
@@ -86,12 +88,13 @@ module.exports = (app, articleService, commentService) => {
 
     return res.status(HttpCode.OK).send(deletedComment);
   });
-
+  // DONE
   router.get(`/`, (req, res) => {
     const articles = articleService.findAll();
     return res.status(HttpCode.OK).send(articles);
   });
 
+  // DONE
   router.put(`/:articleId`, validateArticle, (req, res) => {
     const {articleId} = req.params;
 
@@ -103,8 +106,9 @@ module.exports = (app, articleService, commentService) => {
 
     return res.status(HttpCode.OK).send(updatedArticle);
   });
-
+  // DONE
   router.delete(`/:articleId`, (req, res) => {
+    console.log(`router.delete(/:articleId`);
     const deletedArticle = articleService.delete(req.params.articleId);
 
     if (!deletedArticle) {
@@ -113,10 +117,9 @@ module.exports = (app, articleService, commentService) => {
 
     return res.status(HttpCode.OK).send(deletedArticle);
   });
-
+  // DONE
   router.post(`/`, validateArticle, (req, res) => {
     const article = articleService.create(req.body);
-
     return res.status(HttpCode.CREATED).send(article);
   });
 };
