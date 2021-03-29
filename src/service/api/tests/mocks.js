@@ -130,4 +130,4 @@ const mockArticles = [
   }
 ];
 
-module.exports = {mockArticles};
+module.exports = () => mockArticles;
