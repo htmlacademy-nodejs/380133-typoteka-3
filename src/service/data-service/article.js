@@ -11,10 +11,7 @@ class ArticleService {
   }
 
   findOne(id) {
-    const article = this._articles.find((it) => {
-      const result = it.id === id;
-      return result;
-    });
+    const article = this._articles.find((it) => it.id === id);
 
     if (!article) {
       return null;
@@ -53,8 +50,6 @@ class ArticleService {
     }
 
     this._articles = this._articles.filter((it) => it.id !== id);
-    const newArticles = this._articles.filter((it) => it.id !== id);
-    this._articles = [...newArticles];
     return deletedArticle;
   }
 }

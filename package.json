@@ -5,7 +5,7 @@
   "main": "./src/service/service.js",
   "scripts": {
     "start": "node ./src/service/service.js",
-    "test": "npm run eslint && jest --watch",
+    "test": "npm run eslint && jest",
     "test:coverage": "npm run eslint && jest --coverage",
     "test::rest": "npm run test",
     "eslint": "eslint --ext .js src/",
