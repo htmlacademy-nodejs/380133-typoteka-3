@@ -1,9 +1,9 @@
 const {Router} = require(`express`);
 const {HttpCode, ServerMessage} = require(`../constants`);
 
-const router = new Router();
-
 module.exports = (app, service) => {
+  const router = new Router();
+
   app.use(`/search`, router);
 
   router.get(`/`, (req, res) => {
