@@ -1,6 +1,6 @@
 parserOptions:
   ecmaVersion: 2018
-  sourceType: 'module'
+  sourceType: "module"
 
 env:
   es6: true
@@ -8,3 +8,5 @@ env:
   jest: true
 
 extends: "htmlacademy/node"
+
+ignorePatterns: "**/express/public/**/*.js"

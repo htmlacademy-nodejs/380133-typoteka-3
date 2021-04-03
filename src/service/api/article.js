@@ -2,6 +2,9 @@ const {Router} = require(`express`);
 const {validateArticle} = require(`../middlewares/validateArticle`);
 const {validateComment} = require(`../middlewares/validateComment`);
 const {HttpCode, ServerMessage} = require(`../constants`);
+const {getLogger} = require(`../lib/logger`);
+
+const logger = getLogger({name: `api/articles`});
 
 module.exports = (app, articleService, commentService) => {
   const router = new Router();
@@ -14,12 +17,14 @@ module.exports = (app, articleService, commentService) => {
     const article = articleService.findOne(articleId);
 
     if (!article) {
+      logger.error(`${ServerMessage.NOT_FOUND_MESSAGE} article ${req.url}`);
       return res.status(HttpCode.NOT_FOUND).send(ServerMessage.NOT_FOUND_MESSAGE);
     }
 
     const comment = commentService.findOne(commentId, article);
 
     if (!comment) {
+      logger.error(`${ServerMessage.NOT_FOUND_MESSAGE} comment ${req.url}`);
       return res.status(HttpCode.NOT_FOUND).send(ServerMessage.NOT_FOUND_MESSAGE);
     }
 
@@ -32,12 +37,14 @@ module.exports = (app, articleService, commentService) => {
     const article = articleService.findOne(articleId);
 
     if (!article) {
+      logger.error(`${ServerMessage.NOT_FOUND_MESSAGE} article ${req.url}`);
       return res.status(HttpCode.NOT_FOUND).send(ServerMessage.NOT_FOUND_MESSAGE);
     }
 
     const deletedComment = commentService.delete(commentId, article);
 
     if (!deletedComment) {
+      logger.error(`${ServerMessage.NOT_FOUND_MESSAGE} comment ${req.url}`);
       return res.status(HttpCode.NOT_FOUND).send(ServerMessage.NOT_FOUND_MESSAGE);
     }
 
@@ -48,12 +55,14 @@ module.exports = (app, articleService, commentService) => {
     const article = articleService.findOne(req.params.articleId);
 
     if (!article) {
+      logger.error(`${ServerMessage.NOT_FOUND_MESSAGE} article ${req.url}`);
       return res.status(HttpCode.NOT_FOUND).send(ServerMessage.NOT_FOUND_MESSAGE);
     }
 
     const comments = commentService.findAll(article);
 
     if (!comments) {
+      logger.error(`${ServerMessage.NOT_FOUND_MESSAGE} comment ${req.url}`);
       return res.status(HttpCode.NOT_FOUND).send(ServerMessage.NOT_FOUND_MESSAGE);
     }
 
@@ -64,12 +73,14 @@ module.exports = (app, articleService, commentService) => {
     const article = articleService.findOne(req.params.articleId);
 
     if (!article) {
+      logger.error(`${ServerMessage.NOT_FOUND_MESSAGE} article ${req.url}`);
       return res.status(HttpCode.NOT_FOUND).send(ServerMessage.NOT_FOUND_MESSAGE);
     }
 
     const createdComment = commentService.create(req.body.text, article);
 
     if (!createdComment) {
+      logger.error(`${ServerMessage.NOT_FOUND_MESSAGE} comment ${req.url}`);
       return res.status(HttpCode.NOT_FOUND).send(ServerMessage.NOT_FOUND_MESSAGE);
     }
 
@@ -80,6 +91,7 @@ module.exports = (app, articleService, commentService) => {
     const article = articleService.findOne(req.params.articleId);
 
     if (!article) {
+      logger.error(`${ServerMessage.NOT_FOUND_MESSAGE} article ${req.url}`);
       return res.status(HttpCode.NOT_FOUND).send(ServerMessage.NOT_FOUND_MESSAGE);
     }
 
@@ -92,6 +104,7 @@ module.exports = (app, articleService, commentService) => {
     const updatedArticle = articleService.update(articleId, req.body);
 
     if (!updatedArticle) {
+      logger.error(`${ServerMessage.NOT_FOUND_MESSAGE} article ${req.url}`);
       return res.status(HttpCode.NOT_FOUND).send(ServerMessage.NOT_FOUND_MESSAGE);
     }
 
@@ -102,6 +115,7 @@ module.exports = (app, articleService, commentService) => {
     const deletedArticle = articleService.delete(req.params.articleId);
 
     if (!deletedArticle) {
+      logger.error(`${ServerMessage.NOT_FOUND_MESSAGE} article ${req.url}`);
       return res.status(HttpCode.NOT_FOUND).send(ServerMessage.NOT_FOUND_MESSAGE);
     }
 
