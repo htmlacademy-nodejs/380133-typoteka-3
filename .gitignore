@@ -11,8 +11,14 @@ Thumbs.db
 *.log*
 node_modules/
 
+# coverage
+/coverage
+
 # Папка с собранными файлами проекта
 build/
 
 # Замоканные данные
 mocks.json
+
+# Логи
+*.log

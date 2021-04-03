@@ -27,10 +27,14 @@ const FilePath = {
 
 // server
 const ServerMessage = {
-  ERROR: `Ошибка при создании сервера`,
-  SUCCESS: `Ожидаю соединений на `,
+  START_SERVER_ERROR: `Ошибка при создании сервера`,
+  SUCCESS: `Ожидаю соединений на`,
   NOT_FOUND_MESSAGE: `Not found`,
   BAD_REQUEST: `Bad request`,
+  ROUTE_NOT_FOUND: `Route not found:`,
+  ERROR: `An error occured on processing request:`,
+  REQUEST_ON_ROUTE: `Request on route`,
+  RESPONSE_STATUS_CODE: `Response status code`,
 };
 const HttpCode = {
   OK: 200,
@@ -46,6 +50,11 @@ const RequestMethods = {
   PUT: `PUT`,
   DELETE: `DELETE`,
   POST: `POST`,
+};
+
+const Env = {
+  DEVELOPMENT: `development`,
+  PRODUCTION: `production`
 };
 
 
@@ -64,4 +73,5 @@ module.exports = {
   ServerMessage,
   HttpCode,
   RequestMethods,
+  Env,
 };

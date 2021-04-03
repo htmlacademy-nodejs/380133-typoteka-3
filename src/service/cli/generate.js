@@ -60,8 +60,8 @@ const generateArticles = async (count = ArticlesCount.DEFAULT_VALUE) => {
       title: generateTitle(titles),
       announce: generateAnnounce(sentences),
       fullText: generateFullText(sentences),
-      сategory: generateCategory(categories),
       createdDate: getRandomArticleDate(),
+      category: generateCategory(categories),
       comments: getComments(comments),
     }));
 };
