@@ -24,7 +24,6 @@ class ArticleService {
     const newArticle = {
       id: nanoid(MAX_ID_LENGTH),
       comments: [],
-      createdDate: Date.now(),
       ...article
     };
 

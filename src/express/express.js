@@ -3,8 +3,9 @@ const express = require(`express`);
 const chalk = require(`chalk`);
 const {
   DEFAULT_PORT,
-  ServerMessage,
   PUBLIC_DIR,
+  PUBLIC_UPLOAD_DIR,
+  ServerMessage,
 } = require(`./constants`);
 const routes = require(`./routes`);
 
@@ -15,6 +16,7 @@ routes(app);
 
 // public
 app.use(express.static(path.resolve(__dirname, PUBLIC_DIR)));
+app.use(express.static(path.resolve(__dirname, PUBLIC_UPLOAD_DIR)));
 
 // views
 app.set(`views`, path.resolve(__dirname, `templates`));
