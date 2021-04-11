@@ -1,3 +1,4 @@
+const fileSystem = require(`fs`);
 const fs = require(`fs`).promises;
 const path = require(`path`);
 const chalk = require(`chalk`);
@@ -8,6 +9,10 @@ let data = null;
 const getMockData = async () => {
   if (data !== null) {
     return Promise.resolve(data);
+  }
+
+  if (!fileSystem.existsSync(FILE_NAME)) {
+    return Promise.resolve([]);
   }
 
   try {
