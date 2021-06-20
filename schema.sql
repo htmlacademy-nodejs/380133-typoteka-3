@@ -15,7 +15,8 @@ CREATE TABLE users(
   first_name varchar(255) NOT NULL,
   last_name varchar(255) NOT NULL,
   password_hash varchar(255) NOT NULL,
-  avatar varchar(50)
+  avatar varchar(50),
+  is_author boolean DEFAULT false
 );
 
 CREATE TABLE articles(
