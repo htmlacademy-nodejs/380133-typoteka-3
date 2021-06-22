@@ -1,5 +1,6 @@
 const ANNOUNCE_LENGTH = 5;
 const FILE_NAME = `mocks.json`;
+const FILL_DB_FILE_NAME = `fill-db.sql`;
 const DEFAULT_COMMAND = `--help`;
 const USER_ARGV_INDEX = 2;
 const DEFAULT_PORT = 3000;
@@ -61,6 +62,7 @@ const Env = {
 module.exports = {
   ANNOUNCE_LENGTH,
   FILE_NAME,
+  FILL_DB_FILE_NAME,
   DEFAULT_COMMAND,
   USER_ARGV_INDEX,
   MAX_ID_LENGTH,

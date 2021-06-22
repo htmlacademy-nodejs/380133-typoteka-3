@@ -1,10 +1,10 @@
-DROP TABLE IF EXISTS catgories;
+DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS articles;
 DROP TABLE IF EXISTS comments;
 DROP TABLE IF EXISTS articles_categories;
 
-CREATE TABLE catgories(
+CREATE TABLE categories(
   id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   name varchar(255) NOT NULL
 );
@@ -15,8 +15,7 @@ CREATE TABLE users(
   first_name varchar(255) NOT NULL,
   last_name varchar(255) NOT NULL,
   password_hash varchar(255) NOT NULL,
-  avatar varchar(50),
-  is_author boolean DEFAULT false
+  avatar varchar(50)
 );
 
 CREATE TABLE articles(
