@@ -25,6 +25,3 @@ mocks.json
 
 # upload files
 /src/express/upload
-
-# package-lock file
-package-lock.json
