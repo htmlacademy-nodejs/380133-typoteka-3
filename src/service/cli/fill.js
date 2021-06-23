@@ -159,7 +159,7 @@ const createContent = async (count) => {
     ALTER TABLE comments ENABLE TRIGGER ALL;
 
     ALTER TABLE articles_categories DISABLE TRIGGER ALL;
-    INSERT INTO articles_categories(article_id, user_id) VALUES
+    INSERT INTO articles_categories(article_id, category_id) VALUES
     ${articleCategoryValues};
     ALTER TABLE articles_categories ENABLE TRIGGER ALL;`.replace(/\r?\n|\r/g, ` `);
 };

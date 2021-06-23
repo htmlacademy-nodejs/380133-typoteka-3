@@ -38,12 +38,13 @@ CREATE TABLE comments(
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
+DROP TABLE IF EXISTS articles_categories;
 CREATE TABLE articles_categories(
   article_id integer NOT NULL,
-  user_id integer NOT NULL,
-  PRIMARY KEY (article_id, user_id),
+  category_id integer NOT NULL,
+  PRIMARY KEY (article_id, category_id),
   FOREIGN KEY (article_id) REFERENCES articles(id),
-  FOREIGN KEY (user_id) REFERENCES users(id)
+  FOREIGN KEY (category_id) REFERENCES categories(id)
 );
 
 CREATE INDEX ON articles (title);

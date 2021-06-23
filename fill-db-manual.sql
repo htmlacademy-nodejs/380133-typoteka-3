@@ -39,7 +39,7 @@ ALTER TABLE comments ENABLE TRIGGER ALL;
 
 /* articles_categories */
 ALTER TABLE articles_categories DISABLE TRIGGER ALL;
-INSERT INTO articles_categories(article_id, user_id) VALUES
+INSERT INTO articles_categories(article_id, category_id) VALUES
 (1, 4),
 (2, 5),
 (3, 6);
